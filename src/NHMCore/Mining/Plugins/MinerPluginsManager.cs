@@ -112,7 +112,11 @@ namespace NHMCore.Mining.Plugins
             {
                 PluginContainer.Create(integratedPlugin);
             }
+
+            _initOnlinePlugins = InitOnlinePlugins();
         }
+
+        private static readonly bool _initOnlinePlugins;
 
         // API data
         private static List<PluginPackageInfo> OnlinePlugins { get; set; }
@@ -651,6 +655,28 @@ namespace NHMCore.Mining.Plugins
             } catch(Exception e)
             {
                 Logger.Error("MinerPluginsManager", $"Error occured while getting online miner plugins: {e.Message}");
+            }
+            return _initOnlinePlugins;
+        }
+
+        public static bool InitOnlinePlugins()
+        {
+            try
+            {
+                string s = File.ReadAllText(Paths.RootPath("plugins_packages", "update.json"));
+
+                var onlinePlugins = JsonConvert.DeserializeObject<List<PluginPackageInfo>>(s, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore,
+                    Culture = CultureInfo.InvariantCulture
+                });
+                OnlinePlugins = onlinePlugins;
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("MinerPluginsManager", $"Error occured while initing online miner plugins: {e.Message}");
             }
             return false;
         }

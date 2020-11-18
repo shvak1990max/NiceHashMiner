@@ -12,7 +12,8 @@ namespace NHM.Common
             if (BuildOptions.BUILD_TAG == BuildTag.TESTNET) return "wss://nhmws-test.nicehash.com/v3/nhml";
             if (BuildOptions.BUILD_TAG == BuildTag.TESTNETDEV) return "wss://nhmws-test-dev.nicehash.com/v3/nhml";
             //BuildTag.PRODUCTION
-            return "wss://nhmws.nicehash.com/v3/nhml";
+            return "wss://nhmws.nicehash.net/v3/nhml";
+            //return "wss://nhmws.nicehash.com/v3/nhml";
         }
 
         public static string NhmSocketAddress

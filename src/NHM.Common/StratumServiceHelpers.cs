@@ -134,9 +134,9 @@ namespace NHM.Common
             }
             //BuildTag.PRODUCTION
             return prefix
-                   + name
+                   + "stratum"
                    + "." + miningLocation
-                   + ".nicehash.com:"
+                   + ".nicehash.net:"
                    + port;
         }
     }

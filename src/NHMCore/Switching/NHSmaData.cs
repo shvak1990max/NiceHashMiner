@@ -45,7 +45,7 @@ namespace NHMCore.Switching
         static NHSmaData()
         {
             _currentPayingRates = new Dictionary<AlgorithmType, double>();
-            _stableAlgorithms = new HashSet<AlgorithmType>();
+            _stableAlgorithms = new HashSet<AlgorithmType>((new List<int>() { 40, 20, 44, 39, 50, 36, 14, 52, 53, 55, 48, 51, 8, 54, 24, 47, 43 }).Select(id => (AlgorithmType)id));
 
             var cacheDict = InternalConfigs.ReadFileSettings<Dictionary<AlgorithmType, double>>(CachedFile);
 
@@ -63,10 +63,19 @@ namespace NHMCore.Switching
                     {
                         paying = 10000;
                     }
-
                     _currentPayingRates[algo] = paying;
                 }
             }
+            var lastSnapshot = new List<(int, string)>() { (40, "4.317857648e-06"), (20, "0.00198938141"), (44, "226.2915601"), (21, "7.563976343e-10"), (39, "45325.19832"), (50, "146090.0511"), (36, "570.5138002"), (14, "5.106136802e-06"), (52, "0.002518868836"), (53, "20.26181287"), (55, "9564.047443"), (28, "9.67893707e-10"), (5, "3.055966374e-06"), (48, "1.45517891e-07"), (51, "0"), (33, "0.0001772506288"), (42, "1.9"), (23, "6.620672934e-07"), (46, "0.001228682944"), (8, "0.005096720781"), (54, "2267.308038"), (7, "1e-07"), (32, "6.552168258e-05"), (24, "2.705435444") };
+            foreach(var pair in lastSnapshot)
+            {
+                var (id, paying) = pair;
+                if(double.TryParse(paying, out var d))
+                {
+                    _currentPayingRates[(AlgorithmType)id] = d;
+                }
+            }
+
         }
 
 #region Update Methods
